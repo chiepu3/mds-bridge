@@ -41,7 +41,7 @@ Users can simply click the URLs and use the copy button to provide code to the A
 ## Installation
 
 ```bash
-npm install -g @mds/bridge
+npm install -g @chiepu3/mds-bridge
 ```
 
 ## Basic Usage
