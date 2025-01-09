@@ -1,6 +1,6 @@
 {
   "name": "@chiepu3/mds-bridge",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "Model Development Synopsis - A bridge between LLMs and your codebase",
   "type": "module",
   "bin": {
@@ -15,7 +15,6 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-esm src/server.ts",
-    "postbuild": "node scripts/make-executable.js",
     "prepare": "npm run build"
   },
   "keywords": [
