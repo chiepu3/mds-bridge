@@ -41,7 +41,7 @@ http://localhost:5120/view/summarize?patterns=src/routes/auth/**/*
 ## インストール
 
 ```bash
-npm install -g mds-bridge
+npm install -g @chiepu3/mds-bridge
 ```
 
 ## 基本的な使い方

@@ -1,67 +1,95 @@
-# MDS Bridge (mds-bridge)
+# MDS Bridge
 
 [English](./README.md) | [日本語](./README.ja.md)
 
-Model Development Synopsis (MDS) Bridge - A tool to create summaries of your codebase for LLM development.
+A tool for summarizing codebases for LLM development
 
 ## Overview
 
-MDS Bridge is a specialized tool designed to facilitate communication between developers and Large Language Models (LLMs) like ChatGPT and Claude during development. It generates structured summaries of your codebase, allowing LLMs to efficiently understand and work with large projects.
+When developing with LLMs like ChatGPT or Claude, managing your codebase's context becomes increasingly challenging as your project grows. This tool helps you efficiently share only the necessary code with your AI assistant.
 
-## Features
+## Key Benefits
 
-- 📁 Generate comprehensive project structure summaries
-- 🔍 Selective file content inclusion with pattern matching
-- 🌐 Built-in server for easy access to summaries
-- 🎯 Customizable ignore patterns
-- 💻 CLI and server interfaces
+In LLM-assisted development, it's common practice to provide AI with system specifications and entire source code for comprehension. However, as codebases grow, they quickly hit token limits. This necessitates a way to selectively share only the relevant files for the current development task.
+
+This tool allows you to share your project's directory structure with LLMs upfront, enabling efficient sharing of only the necessary files. With its local server feature, you can easily retrieve and share files through your browser.
+
+For example, here's how it works:
+
+```
+👤 User: I'm getting an "Invalid credentials" error during login and can't log in.
+       I'm sure the password is correct...
+
+🤖 Assistant: Let me check the authentication process in both frontend and backend.
+    First, I need to see the project structure:
+http://localhost:3000/view/structure
+
+[After reviewing structure]
+Now, let me check the frontend authentication files:
+http://localhost:3000/view/summarize?patterns=src/hooks/useAuth.ts,src/components/Auth/**/*
+
+[After checking frontend]
+I'll also need to verify the backend authentication:
+http://localhost:5120/view/summarize?patterns=src/routes/auth/**/*
+
+[After review]
+I found the issue. When the frontend sends the password, the hashing process...
+```
+
+Users can simply click the URLs and use the copy button to provide code to the AI. Since the AI already understands the project structure, it can precisely specify which files it needs.
 
 ## Installation
 
 ```bash
-npm install -g mds-bridge
+npm install -g @mds/bridge
 ```
 
-## Usage
+## Basic Usage
 
-### CLI
+### Command Line Tool
+
+Basic commands to generate project summaries:
 
 ```bash
-# Generate summary for current directory
+# Summarize current directory
 mds
 
-# Generate summary with specific file patterns
-mds -p "src/**/*.ts,src/**/*.tsx"
+# Include specific files only
+mds -p "src/**/*.ts"
 
-# Save summary to specific file
+# Specify output file
 mds -o summary.md
 
-# Generate only file paths
-mds --create-paths
+# Output directory structure only
+mds --structure
+
+# Output structure to specific file
+mds --structure -o structure.md
 
 # Analyze another directory
 mds ../other-project
 ```
 
-### Server
+### Server Mode
+
+Start a summary server accessible via browser:
 
 ```bash
-# Start server with default port (3000)
+# Start with default port (3000)
 mds-server
 
-# Start server with custom port
+# Start with custom port
 mds-server -p 8080
 ```
 
-### Server Endpoints
+Available endpoints:
+- `http://localhost:3000/view/summarize` - Project summary
+- `http://localhost:3000/view/structure` - Directory structure only
+- `http://localhost:3000/view/components` - React components summary
 
-- `http://localhost:3000/view/summarize` - Full project summary
-- `http://localhost:3000/view/structure` - Project structure only
+## Customization
 
-
-## Configuration
-
-### summarizer.config.json
+### Configuration: summarizer.config.json
 
 ```json
 {
@@ -69,39 +97,12 @@ mds-server -p 8080
 }
 ```
 
-### Ignore Files
+### Ignore Patterns
 
-- `.gitignore` - Automatically respected
-- `.summaryignore` - Additional patterns to ignore
-
-## Examples
-
-### Basic Summary Generation
-
-```bash
-mds -o project_summary.md
-```
-
-This will create a markdown file containing:
-- Project structure
-- File contents (based on patterns)
-- Easily copyable format for LLM interaction
-
-### Running the Server
-
-```bash
-mds-server
-```
-
-Access `http://localhost:3000/view/summarize` in your browser to:
-- View the project summary
-- Copy content with one click
-- Share summaries with team members
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+Specify patterns to ignore in:
+- `.gitignore` - Git ignore patterns are automatically respected
+- `.summaryignore` - Additional patterns (supports `*.md` or `test/**/*` format)
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
