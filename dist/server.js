@@ -210,6 +210,15 @@ async function startServer() {
         console.log(`  - Full summary: http://localhost:${port}/view/summarize`);
         console.log(`  - Structure only: http://localhost:${port}/view/structure`);
         console.log(`  - Components summary: http://localhost:${port}/view/components`);
+    }).on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+            console.error(`🚨 Error: Port ${port} is already in use. Please specify a different port.`);
+            console.log('Example: npm start -- --port 3001');
+        }
+        else {
+            console.error('サーバー起動エラー:', err);
+        }
+        process.exit(1);
     });
 }
 startServer().catch(error => {
