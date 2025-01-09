@@ -1,4 +1,4 @@
-// src/server.ts
+#!/usr/bin/env node
 import express from 'express';
 import { join } from 'path';
 import { createSummarizer } from './summarizer.js';

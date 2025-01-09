@@ -1,4 +1,4 @@
-// src/server.ts
+#!/usr/bin/env node
 import express from 'express';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
